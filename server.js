@@ -1,6 +1,6 @@
 import WebSocket, { WebSocketServer } from "ws";
 
-const wss = new WebSocketServer({ port: process.ENV.PORT });
+const wss = new WebSocketServer({ port: process.env.PORT });
 
 /**
  * @typedef {Object} Client
