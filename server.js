@@ -1,6 +1,6 @@
 import WebSocket, { WebSocketServer } from "ws";
 
-const wss = new WebSocketServer({ port: process.env.PORT });
+const wss = new WebSocketServer({ port: 8080 });
 
 /**
  * @typedef {Object} Client
@@ -57,12 +57,16 @@ wss.on("connection", function connection(ws) {
       const connectedRemotesCount = clientList.filter(
         (client) => client.type === "remote"
       ).length;
+      const mainPlayerId = clientList.find(
+        (client) => client.type === "player" && client.mainInstance
+      )?.instance;
       clientList.forEach((client) => {
         if (client.ws.readyState === WebSocket.OPEN) {
           client.ws.send(
             JSON.stringify({
               ...message,
               mainInstance: client.mainInstance,
+              mainPlayerId,
               connectedRemotesCount,
             })
           );
