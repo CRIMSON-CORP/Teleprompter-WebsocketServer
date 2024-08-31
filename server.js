@@ -57,6 +57,9 @@ wss.on("connection", function connection(ws) {
       const connectedRemotesCount = clientList.filter(
         (client) => client.type === "remote"
       ).length;
+      const connectedPlayersCount = clientList.filter(
+        (client) => client.type === "player"
+      ).length;
       const mainPlayerId = clientList.find(
         (client) => client.type === "player" && client.mainInstance
       )?.instance;
@@ -68,6 +71,7 @@ wss.on("connection", function connection(ws) {
               mainInstance: client.mainInstance,
               mainPlayerId,
               connectedRemotesCount,
+              connectedPlayersCount,
             })
           );
         }
