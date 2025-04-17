@@ -1,6 +1,6 @@
 import WebSocket, { WebSocketServer } from "ws";
 
-const wss = new WebSocketServer({ port: process.env.PORT });
+const wss = new WebSocketServer({ port: process.env.PORT || 8080 });
 
 /**
  * @typedef {Object} Client
@@ -18,6 +18,11 @@ const clients = new Map();
 
 wss.on("connection", function connection(ws) {
   ws.on("message", function incoming(message) {
+    if (message.toString() === "ping") {
+      ws.send("pong");
+      return;
+    }
+
     const data = JSON.parse(message);
     const { id, type, action, payload } = data;
 
